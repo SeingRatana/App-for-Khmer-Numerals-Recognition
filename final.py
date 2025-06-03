@@ -71,8 +71,8 @@ translations = {
     "game_check_answer_button": "🔍 ពិនិត្យចម្លើយ!",
     "game_skip_button": "⏭️ រំលង / សំណួរបន្ទាប់",
     "game_toast_correct": "🎉 ត្រឹមត្រូវ! +១ ពិន្ទុ។ (ទំនុកចិត្ត: {confidence:.1f}%)", 
-    "game_toast_incorrect_base": "🤔 មិនត្រឹមត្រូវទេ! ពិន្ទុ -១។ ",
-    "game_toast_incorrect_wrong_digit": "ចម្លើយត្រឹមត្រូវសម្រាប់ '?' គឺ <strong>{khmer_correct_b}</strong> ({correct_b})។", 
+    "game_toast_incorrect_base": "🤔 មិនត្រឹមត្រូវទេ!",
+    "game_toast_incorrect_wrong_digit": "", 
     "game_toast_incorrect_wrong_equation": "អ្នកបានគូរលេខត្រឹមត្រូវសម្រាប់ '?' ប៉ុន្តែវាមិនបានដោះស្រាយសមីការទេ។",
     "game_toast_incorrect_generic": "មានអ្វីមួយមិនត្រឹមត្រូវទេ។",
     "game_toast_no_digit_drawn": "✏️ សូមគូរលេខជាមុន!",
@@ -339,7 +339,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         khmer_a, khmer_result = to_khmer_number(eq['a']), to_khmer_number(eq['result'])
 
         time_now = time.time()
-        total_game_time = 60  # Total allowed game time
+        total_game_time = 120  # Total allowed game time
         time_elapsed_total = time_now - st.session_state.game_start_time
         time_remaining_total = total_game_time - time_elapsed_total
 
