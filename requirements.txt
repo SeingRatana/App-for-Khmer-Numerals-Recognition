@@ -1,6 +1,6 @@
 numpy==1.26.3
 streamlit==1.30.0
-tensorflow==2.13.0
+tensorflow
 opencv-python
 Pillow
 streamlit-drawable-canvas
