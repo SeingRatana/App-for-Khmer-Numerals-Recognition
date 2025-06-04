@@ -529,6 +529,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                             if is_digit_correct and user_solves_equation:
                                 st.toast(translations["game_toast_correct"].format(confidence=conf * 100), icon="🎉")
                                 st.session_state.advance_to_next_question = {"increment": True}
+                                st.rerun()  # ✅ THIS IS THE MODERN VERSION
                             else:
                                 fbk_msg_key = "game_toast_incorrect_base"
                                 if not is_digit_correct:
@@ -541,6 +542,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                     fbk_details = translations["game_toast_incorrect_generic"]
                                 st.toast(translations[fbk_msg_key] + fbk_details, icon="🤔")
                                 st.session_state.advance_to_next_question = {"decrement": True}
+                                st.rerun()  # ✅ THIS IS THE MODERN VERSION
 
                         else:
                             st.toast(translations["game_toast_cannot_recognize"], icon="⚠️")
