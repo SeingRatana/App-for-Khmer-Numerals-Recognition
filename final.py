@@ -296,19 +296,20 @@ if app_mode == translations["rec_mode_title"]:
         with col2_act:
             act_placeholder = st.container()
             is_drawing = False
-            if cv_rec_data.image_data is not None and np.any(cv_rec_data.image_data[:,:,0]>0): is_drawing=True
+            if cv_rec_data.image_data is not None and np.any(cv_rec_data.image_data[:,:,0]>0):
+                is_drawing = True
+        
             if is_drawing:
                 with act_placeholder:
-                    st.markdown(f"<h5>{translations['rec_draw_preview_title']}</h5>")
                     img_arr_cv = cv_rec_data.image_data[:,:,0].astype(np.uint8)
-                    st.image(cv2.resize(img_arr_cv,(112,112)),translations["rec_draw_preview_caption"],112)
                     if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
                         if model_loaded:
                             with st.spinner(translations["analyzing_spinner"]):
                                 processed = preprocess_image_for_model(img_arr_cv,"CANVAS_REC")
                                 _,_,raw_pred = predict_digit_from_processed_img(processed)
                             display_prediction_results(raw_pred)
-                        else: st.error(translations["sidebar_model_not_loaded"])
+                        else:
+                            st.error(translations["sidebar_model_not_loaded"])
             else:
                 with act_placeholder: st.info(translations["rec_draw_info_empty"])
             st.markdown(f"""<div class="info-box" style="margin-top:20px;"><p>{translations['rec_draw_tips_title']}</p><ul>
