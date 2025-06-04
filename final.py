@@ -370,8 +370,8 @@ if app_mode == translations["rec_mode_title"]:
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=300,
-                width=300,
+                height=250,
+                width=250,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
@@ -459,8 +459,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=300,
-                width=300,
+                height=250,
+                width=250,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
