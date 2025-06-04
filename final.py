@@ -167,7 +167,6 @@ def apply_custom_style():
             background-color: var(--background-color) !important;
             border: none !important;
             box-shadow: none !important;
-            padding: 4px 0 0 0 !important;
         }
         
         /* Remove padding/margin/border from outer block that wraps canvas + toolbar */
