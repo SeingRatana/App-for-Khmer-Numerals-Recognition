@@ -380,7 +380,7 @@ if app_mode == translations["rec_mode_title"]:
             st.markdown('</div>', unsafe_allow_html=True)
 
 
-            img_arr_cv = cv_rec_data.image_data[:, :, 0].astype(np.uint8) if cv_rec_data.image_data is not None else None
+            img_arr_cv = cv_game_data.image_data[:, :, 0].astype(np.uint8) if cv_rec_data.image_data is not None else None
             has_drawing = img_arr_cv is not None and np.any(img_arr_cv > 0)
 
             if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
