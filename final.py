@@ -153,67 +153,6 @@ def apply_custom_style():
             table-layout: auto;
             word-wrap: break-word;
         }
-        /* Make canvas wrapper background match the app */
-        div[data-testid="stCanvas"] {
-            padding: 0 !important;
-            margin: 0 !important;
-            background-color: var(--background-color) !important;
-            border: none !important;
-            box-shadow: none !important;
-            overflow: hidden !important;
-        }
-        
-        /* Make toolbar match app background */
-        div[data-testid="stCanvasToolbar"] {
-            background-color: var(--background-color) !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding-top: 4px !important;
-        }
-        
-        /* Kill margins/padding around the canvas container */
-        div[class*="element-container"] > div:has(div[data-testid="stCanvas"]) {
-            margin: 0 !important;
-            padding: 0 !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-        
-        /* Prevent Streamlit from adding background to any auto container around canvas */
-        div[data-testid="stBlock"]:has(div[data-testid="stCanvas"]) {
-            background: transparent !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-        /* Remove spacing/margin/padding around canvas block */
-        div[data-testid="stCanvas"] {
-            padding: 0 !important;
-            margin: 0 !important;
-            background-color: #000 !important;  /* matches your black canvas */
-            box-shadow: none !important;
-            border: none !important;
-        }
-        
-        /* Force the background of the toolbar area to blend with black canvas */
-        div[data-testid="stCanvasToolbar"] {
-            background-color: #000 !important;
-            padding: 5px 0 0 0 !important;
-            margin: 0 !important;
-            border: none !important;
-            box-shadow: none !important;
-        }
-        
-        /* Kill white background in outer wrapper that still lingers */
-        div[data-testid="stBlock"]:has(div[data-testid="stCanvas"]) {
-            background: #000 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
 
     </style>
     """, unsafe_allow_html=True)
