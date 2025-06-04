@@ -62,7 +62,7 @@ translations = {
     "game_equation_header": "គូរលេខខ្មែរដែលបាត់！",
     "game_check_answer_button": "🔍 ពិនិត្យចម្លើយ！",
     "game_skip_button": "⏭️ រំលង / សំណួរបន្ទាប់",
-    "game_toast_correct": "🎉 ត្រឹមត្រូវ！ +១ ពិន្ទុ。 (ទំនុកចិត្ត： {confidence:.1f}%)",
+    "game_toast_correct": "🎉 ត្រឹមត្រូវ!",
     "game_toast_incorrect_base": "🤔 មិនត្រឹមត្រូវទេ！",
     "game_toast_incorrect_wrong_digit": "",
     "game_toast_incorrect_wrong_equation": "អ្នកបានគូរលេខត្រឹមត្រូវសម្រាប់ '?' ប៉ុន្តែវាមិនបានដោះស្រាយសមីការទេ。",
@@ -379,8 +379,8 @@ if app_mode == translations["rec_mode_title"]:
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=250,
-                width=250,
+                height=200,
+                width=200,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
@@ -466,8 +466,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=250,
-                width=250,
+                height=200,
+                width=200,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
