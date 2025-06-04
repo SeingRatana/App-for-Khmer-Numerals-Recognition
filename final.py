@@ -479,6 +479,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                 width=280,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
+                update_streamlit=True,
+                display_toolbar=False  # <- disable default download/delete buttons
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
