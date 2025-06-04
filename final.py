@@ -534,4 +534,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
             else:
                 st.toast(translations["game_toast_canvas_data_unavailable"], icon="✏️")
 
-st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
+with st.sidebar:
+    st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
+    display_leaderboard()
