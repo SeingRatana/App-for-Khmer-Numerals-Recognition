@@ -189,7 +189,22 @@ def display_prediction_results(full_prediction_output): # For recognition mode
         <div>{translations["predicted_digit_label"]} <span style="font-size:42px;">{khmer_pred}</span> ({pred_cls})</div>
         <div>{translations["confidence_label"]} {conf:.2f}%</div></div>""", unsafe_allow_html=True)
     st.subheader(translations["prediction_header"])
-    st.bar_chart({to_khmer_number(i):float(p) for i,p in enumerate(full_prediction_output[0])})
+    
+    with st.container():
+        st.markdown("""
+            <style>
+                .wide-chart-container {
+                    max-width: 800px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            </style>
+            <div class="wide-chart-container">
+        """, unsafe_allow_html=True)
+        
+        st.bar_chart({to_khmer_number(i): float(p) for i, p in enumerate(full_prediction_output[0])})
+        
+        st.markdown("</div>", unsafe_allow_html=True)
 
 def generate_equation():
     a = random.randint(0, 9)
