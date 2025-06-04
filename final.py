@@ -46,7 +46,7 @@ translations = {
     "rec_upload_title": "📁 បង្ហោះរូបភាព",
     "rec_upload_uploader_label": "រូបភាពលេខខ្មែរ",
     "rec_upload_original_caption": "រូបភាពដើម",
-    "rec_upload_processed_caption": "រូបភាពកែយប្រា(បញ្ច្រាសPixels)",
+    "rec_upload_processed_caption": "រូបភាពកែឆ្នៃ(បញ្ច្រាសPixels)",
     "rec_upload_button": "🔍 សម្គាល់រូបភាពដែលបានបង្ហោះ",
     "rec_upload_placeholder": "🖼️ បង្ហោះរូបភាព។",
     "rec_draw_title": "✏️ គូរលេខខ្មែរ",
