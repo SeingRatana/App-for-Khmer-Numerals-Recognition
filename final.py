@@ -223,7 +223,7 @@ def generate_equation():
 
 # --- Leaderboard Helpers ---
 def save_score_to_session(name, score):
-    st.session_state.leaderboard.append({"ឈ្មោះ": name, "ពិន្ទុ": score})
+    st.session_state.leaderboard.append({"Name": name, "Score": score})
     st.session_state.leaderboard = sorted(
         st.session_state.leaderboard,
         key=lambda x: x["Score"],
