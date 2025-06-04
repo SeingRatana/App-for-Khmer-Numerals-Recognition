@@ -291,15 +291,19 @@ if app_mode == translations["rec_mode_title"]:
             cv_rec_data = st_canvas(fill_color="rgba(0,0,0,0)",stroke_width=stroke_width_recognition,stroke_color="#FFF",background_color="#000",height=280,width=280,drawing_mode="freedraw",key=st.session_state.recognition_canvas_key)
             st.markdown('</div>', unsafe_allow_html=True)
             img_arr_cv = cv_rec_data.image_data[:,:,0].astype(np.uint8) if cv_rec_data.image_data is not None else None
-            if img_arr_cv is not None and np.any(img_arr_cv > 0):
-                if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
-                    if model_loaded:
-                        with st.spinner(translations["analyzing_spinner"]):
-                            processed = preprocess_image_for_model(img_arr_cv,"CANVAS_REC")
-                            _,_,raw_pred = predict_digit_from_processed_img(processed)
-                        display_prediction_results(raw_pred)
-                    else:
-                        st.error(translations["sidebar_model_not_loaded"])
+            has_drawing = img_arr_cv is not None and np.any(img_arr_cv > 0)
+            st.markdown('<div style="margin-top: 1rem;"></div>', unsafe_allow_html=True)
+            if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
+                if not has_drawing:
+                    st.toast(translations["game_toast_no_digit_drawn"], icon="✏️")
+                elif model_loaded:
+                    with st.spinner(translations["analyzing_spinner"]):
+                        processed = preprocess_image_for_model(img_arr_cv,"CANVAS_REC")
+                        _, _, raw_pred = predict_digit_from_processed_img(processed)
+                    display_prediction_results(raw_pred)
+                else:
+                    st.error(translations["sidebar_model_not_loaded"])
+
         with col2_act:
             st.info(translations["rec_draw_info_empty"])
             st.markdown(f"""<div class="info-box" style="margin-top:20px;"><p>{translations['rec_draw_tips_title']}</p><ul>
