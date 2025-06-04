@@ -233,7 +233,6 @@ def save_score_to_session(name, score):
 def display_leaderboard():
     if st.session_state.leaderboard:
         df = pd.DataFrame(st.session_state.leaderboard)
-        st.markdown("🏆 **Leaderboard (Top 10 Scores This Session)**")
         st.dataframe(df, use_container_width=True)
     else:
         st.info("📭 មិនទាន់មានពិន្ទុទេ។")  # No scores yet
