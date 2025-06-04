@@ -323,9 +323,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
     if st.session_state.game_active and not st.session_state.game_over:
         if "last_refresh_time" not in st.session_state:
             st.session_state.last_refresh_time = time.time()
-        if time.time() - st.session_state.last_refresh_time >= 1:
-            st.session_state.last_refresh_time = time.time()
-            st.rerun()
 
     if not st.session_state.game_active and not st.session_state.game_over:
         if st.button(translations["game_start_button"], use_container_width=True, type="primary", key="start_game_btn"):
@@ -349,9 +346,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         col_score_disp, col_timer_disp, col_stop_game = st.columns([2,2,1])
         with col_score_disp:
             st.markdown(f"<span class='game-stat'>{translations['game_score_label']} {st.session_state.game_score}</span>", unsafe_allow_html=True)
-        with col_timer_disp:
-            timer_display_placeholder = st.empty() 
-            timer_display_placeholder.markdown(f"<span class='game-stat' style='text-align:right;'>{translations['game_time_label']} {max(0, int(time_remaining_total))}s ⏳</span>", unsafe_allow_html=True)
         with col_stop_game:
             if st.button(translations["game_stop_button"], key="stop_game_btn", help=translations["game_stop_button_help"], use_container_width=True, type="secondary"):
                 end_game()
