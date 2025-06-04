@@ -247,6 +247,7 @@ def display_leaderboard():
     if st.session_state.leaderboard:
         df = pd.DataFrame(st.session_state.leaderboard)
         df = df.rename(columns={"Name": "ឈ្មោះ", "Score": "ពិន្ទុ"})
+        df.index.name = "ចំណាត់ថ្នាក់"
         st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
         st.dataframe(df, use_container_width=True)
     else:
