@@ -10,31 +10,6 @@ import os
 from streamlit.runtime.scriptrunner import get_script_run_ctx
 import matplotlib.pyplot as plt
 import pandas as pd  # Added for leaderboard
-import streamlit.components.v1 as components
-
-# Detect and store screen width using JS
-if "screen_width" not in st.session_state:
-    components.html("""
-        <script>
-        const width = window.innerWidth;
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set("width", width);
-        window.location.search = queryParams.toString();
-        </script>
-    """, height=0)
-
-# Read screen width from query params
-screen_width = st.query_params.get("width", "1200")
-screen_width = int(screen_width)
-st.session_state.screen_width = screen_width
-
-# Set page config and theme
-st.set_page_config(
-    page_title="កម្មវិធីសម្គាល់លេខខ្មែរ",  # Khmer Digit App
-    page_icon="🔢",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
 # Khmer Translations
 translations = {
@@ -170,44 +145,6 @@ def apply_custom_style():
             table-layout: auto;
             word-wrap: break-word;
         }
-        @media screen and (max-width: 768px) {
-            .stRadio > div > label {
-                display: block;
-                margin-bottom: 10px;
-                width: 100% !important;
-            }
-        
-            .app-header {
-                padding: 1rem;
-                font-size: 0.9em;
-            }
-        
-            .canvas-container {
-                width: 100% !important;
-                text-align: center;
-            }
-        
-            .stButton > button {
-                width: 100% !important;
-                margin-bottom: 10px;
-            }
-        
-            .stDataFrame {
-                overflow-x: auto;
-            }
-        
-            .card {
-                padding: 1rem;
-            }
-        
-            h1, h2, h3 {
-                font-size: 1.3em;
-            }
-        
-            .game-stat {
-                font-size: 1em;
-            }
-        }
 
     </style>
     """, unsafe_allow_html=True)
@@ -224,14 +161,6 @@ def to_khmer_number(number_str):
     number_str = str(number_str)
     khmer_digits = "០១២៣៤៥៦៧៨៩"
     return ''.join(khmer_digits[int(d)] if d.isdigit() else d for d in number_str)
-    
-def get_responsive_canvas_size():
-    if st.session_state.screen_width < 768:
-        return 200  # Mobile
-    elif st.session_state.screen_width < 1024:
-        return 240  # Tablet
-    else:
-        return 280  # Desktop
 
 @st.cache_resource
 def load_model_cached():
@@ -443,8 +372,8 @@ if app_mode == translations["rec_mode_title"]:
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=canvas_size,
-                width=canvas_size,
+                height=200,
+                width=200,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
@@ -527,15 +456,13 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         with col1_game_cv:
             st.markdown('<div class="canvas-container" style="margin:0 auto 15px auto;">', unsafe_allow_html=True)
             
-            canvas_size = get_responsive_canvas_size()
-            
             cv_game_data = st_canvas(
                 fill_color="rgba(0,0,0,0)",
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=canvas_size,
-                width=canvas_size,
+                height=200,
+                width=200,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
