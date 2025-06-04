@@ -135,23 +135,6 @@ def apply_custom_style():
             justify-content: center;
             align-items: center;
         }
-        
-        /* Target the actual Streamlit canvas wrapper */
-        div[data-testid="stCanvas"] {
-            background-color: transparent !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-        
-        /* Target Streamlit block holding the canvas */
-        div[class^="element-container"] > div:has(canvas) {
-            padding: 0 !important;
-            margin: 0 !important;
-            background: transparent !important;
-            box-shadow: none !important;
-        }
 
         .css-1s3fmew, .css-1x8cf1d { background-color: rgba(110,142,251,0.1); border: 1px dashed var(--border-color); padding: 10px; border-radius: 10px; }
         .sidebar .sidebar-content, [data-testid="stSidebar"] { background-color: var(--card-background); border-right: 1px solid var(--border-color); }
@@ -178,21 +161,6 @@ def apply_custom_style():
             font-size: 0.85rem;
             table-layout: auto;
             word-wrap: break-word;
-        }
-        /* Remove scrollbars and white space around canvas */
-        div[data-testid="stCanvas"] {
-            padding: 0 !important;
-            margin: 0 !important;
-            background-color: transparent !important;
-            overflow: hidden !important;
-        }
-        
-        /* Target surrounding wrapper */
-        div[class^="element-container"] > div:has(canvas) {
-            padding: 0 !important;
-            margin: 0 !important;
-            background: transparent !important;
-            box-shadow: none !important;
         }
     </style>
     """, unsafe_allow_html=True)
