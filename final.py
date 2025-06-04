@@ -288,10 +288,18 @@ if app_mode == translations["rec_mode_title"]:
         with col1_cv:
             st.markdown(f"<p style='text-align:center;font-weight:bold;'>{translations['rec_draw_canvas_label']}</p>", unsafe_allow_html=True)
             st.markdown('<div class="canvas-container" style="margin:0 auto 15px auto;">', unsafe_allow_html=True) 
-            cv_rec_data = st_canvas(fill_color="rgba(0,0,0,0)",stroke_width=stroke_width_recognition,stroke_color="#FFF",background_color="#000",height=280,width=280,drawing_mode="freedraw",key=st.session_state.recognition_canvas_key)
+            cv_rec_data = st_canvas(
+                fill_color="rgba(0,0,0,0)",
+                stroke_width=stroke_width_recognition,
+                stroke_color="#FFF",
+                background_color="#000",
+                height=280,
+                width=280,
+                drawing_mode="freedraw",
+                key=st.session_state.recognition_canvas_key
+            )
             st.markdown('</div>', unsafe_allow_html=True)
-
-        with col2_act:
+        
             img_arr_cv = cv_rec_data.image_data[:,:,0].astype(np.uint8) if cv_rec_data.image_data is not None else None
             has_drawing = img_arr_cv is not None and np.any(img_arr_cv > 0)
         
@@ -300,11 +308,17 @@ if app_mode == translations["rec_mode_title"]:
                     st.toast(translations["game_toast_no_digit_drawn"], icon="✏️")
                 elif model_loaded:
                     with st.spinner(translations["analyzing_spinner"]):
-                        processed = preprocess_image_for_model(img_arr_cv, "CANVAS_REC")
-                        _, _, raw_pred = predict_digit_from_processed_img(processed)
-                    display_prediction_results(raw_pred)
+                        processed = preprocess_image_for_model(img_arr_cv,"CANVAS_REC")
+                        pred_cls, conf, raw_pred = predict_digit_from_processed_img(processed)
+                        st.session_state.last_recognition_result = raw_pred
                 else:
                     st.error(translations["sidebar_model_not_loaded"])
+
+        with col2_act:
+            if "last_recognition_result" in st.session_state and st.session_state.last_recognition_result is not None:
+                display_prediction_results(st.session_state.last_recognition_result)
+            else:
+                st.info(translations["rec_draw_info_empty"])
 
 
 # ========================= ARITHMETIC GAME MODE =========================
