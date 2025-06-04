@@ -552,9 +552,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                 st.toast(translations["game_toast_canvas_data_unavailable"], icon="✏️")
 
 
-    if new_q_btn_clicked:
-        start_new_game_question()
-
     # ✅ Add it here
     if "advance_to_next_question" in st.session_state:
         info = st.session_state.pop("advance_to_next_question")
