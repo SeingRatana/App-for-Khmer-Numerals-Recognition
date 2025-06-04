@@ -306,7 +306,6 @@ def start_new_game_question(increment_score=False, decrement_score=False):
     st.session_state.equation = generate_equation()
     st.session_state.game_question_start_time = time.time()
     st.session_state.game_canvas_key = "canvas_game_" + str(time.time())
-    st.rerun()
 
 def end_game():
     st.session_state.game_over = True
@@ -529,8 +528,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
                             if is_digit_correct and user_solves_equation:
                                 st.toast(translations["game_toast_correct"].format(confidence=conf * 100), icon="🎉")
-                                time.sleep(0.2)
-                                start_new_game_question(increment_score=True)
+                                st.session_state.advance_to_next_question = {"increment": True}
                             else:
                                 fbk_msg_key = "game_toast_incorrect_base"
                                 if not is_digit_correct:
@@ -542,8 +540,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                 else:
                                     fbk_details = translations["game_toast_incorrect_generic"]
                                 st.toast(translations[fbk_msg_key] + fbk_details, icon="🤔")
-                                time.sleep(0.2)
-                                start_new_game_question(decrement_score=False)
+                                st.session_state.advance_to_next_question = {"decrement": True}
 
                         else:
                             st.toast(translations["game_toast_cannot_recognize"], icon="⚠️")
@@ -553,6 +550,22 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                     st.toast(translations["game_toast_no_digit_drawn"], icon="✏️")
             else:
                 st.toast(translations["game_toast_canvas_data_unavailable"], icon="✏️")
+
+    if check_ans_btn_clicked:
+        ...
+        if correct:
+            st.toast(...)
+            st.session_state.advance_to_next_question = {"increment": True}
+
+    if new_q_btn_clicked:
+        start_new_game_question()
+
+    # ✅ Add it here
+    if "advance_to_next_question" in st.session_state:
+        info = st.session_state.pop("advance_to_next_question")
+        increment = info.get("increment", False)
+        decrement = info.get("decrement", False)
+        start_new_game_question(increment_score=increment, decrement_score=decrement)
 
 with st.sidebar:
     display_leaderboard()
