@@ -299,6 +299,8 @@ app_mode = st.sidebar.radio(
 if app_mode == translations["rec_mode_title"]:
     st.session_state.game_active = False
     st.markdown(f"<div class='card'><h2>{translations['rec_mode_title']}</h2></div>", unsafe_allow_html=True)
+    st.markdown("### 🏅 Leaderboard")
+    display_leaderboard()
     st.markdown('<div class="method-selector">', unsafe_allow_html=True)
     input_method = st.radio(
         translations["rec_input_method"],
