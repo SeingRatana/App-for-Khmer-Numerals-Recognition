@@ -188,6 +188,33 @@ def apply_custom_style():
             box-shadow: none !important;
             border: none !important;
         }
+        /* Remove spacing/margin/padding around canvas block */
+        div[data-testid="stCanvas"] {
+            padding: 0 !important;
+            margin: 0 !important;
+            background-color: #000 !important;  /* matches your black canvas */
+            box-shadow: none !important;
+            border: none !important;
+        }
+        
+        /* Force the background of the toolbar area to blend with black canvas */
+        div[data-testid="stCanvasToolbar"] {
+            background-color: #000 !important;
+            padding: 5px 0 0 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Kill white background in outer wrapper that still lingers */
+        div[data-testid="stBlock"]:has(div[data-testid="stCanvas"]) {
+            background: #000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -393,7 +420,12 @@ if app_mode == translations["rec_mode_title"]:
         col1_cv, col2_act = st.columns([1, 1])
         with col1_cv:
             st.markdown(f"<p style='text-align:center;font-weight:bold;'>{translations['rec_draw_canvas_label']}</p>", unsafe_allow_html=True)
-            st.markdown('<div class="canvas-container" style="margin:0 auto 15px auto;">', unsafe_allow_html=True)
+        
+            # Wrap canvas in custom black container
+            st.markdown('''
+            <div style="display: flex; justify-content: center; align-items: center; background-color: #000; padding: 0; margin: 0;">
+            ''', unsafe_allow_html=True)
+        
             cv_rec_data = st_canvas(
                 fill_color="rgba(0,0,0,0)",
                 stroke_width=stroke_width_recognition,
@@ -404,7 +436,9 @@ if app_mode == translations["rec_mode_title"]:
                 drawing_mode="freedraw",
                 key=st.session_state.recognition_canvas_key
             )
+        
             st.markdown('</div>', unsafe_allow_html=True)
+
 
             img_arr_cv = cv_rec_data.image_data[:, :, 0].astype(np.uint8) if cv_rec_data.image_data is not None else None
             has_drawing = img_arr_cv is not None and np.any(img_arr_cv > 0)
