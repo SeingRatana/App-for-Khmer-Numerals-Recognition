@@ -399,8 +399,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
             initialize_new_game_session()
 
     elif st.session_state.game_over:
-        # Modified Game Over section to include leaderboard
-        st.error(translations["game_over_message"].format(score=st.session_state.game_score))
+        khmer_score = to_khmer_number(st.session_state.game_score)  # ✅ convert score to Khmer
+        st.error(translations["game_over_message"].format(score=khmer_score))
 
         name = st.text_input("📝 បញ្ចូលឈ្មោះរបស់អ្នក:", max_chars=25, key="name_input")
         if st.button("💾 រក្សាទុកពិន្ទុ", key="save_score_btn") and name:
