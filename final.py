@@ -23,7 +23,7 @@ st.set_page_config(
 translations = {
     # General UI
     "app_title": "កម្មវិធីសម្គាល់លេខខ្មែរ ✨",
-    "app_subtitle": "សម្គាល់ ឬគូរលេខខ្មែរ!",
+    "app_subtitle": "សម្គាល់ ឬ គូរលេខខ្មែរ!",
     "sidebar_drawing_controls": "🖌️ សម្រាប់គូរ",
     "sidebar_stroke_recognition": "កម្រាស់ (គូរដើម្បីសម្គាល់):",
     "sidebar_stroke_game": "កម្រាស់ក្នុងហ្គេម (គូរក្នុងហ្គេម):",
@@ -313,8 +313,6 @@ app_mode = st.sidebar.radio(
 if app_mode == translations["rec_mode_title"]:
     st.session_state.game_active = False
     st.markdown(f"<div class='card'><h2>{translations['rec_mode_title']}</h2></div>", unsafe_allow_html=True)
-    st.markdown("### 🏅 Leaderboard")
-    display_leaderboard()
     st.markdown('<div class="method-selector">', unsafe_allow_html=True)
     input_method = st.radio(
         translations["rec_input_method"],
@@ -536,10 +534,3 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
             else:
                 st.toast(translations["game_toast_canvas_data_unavailable"], icon="✏️")
 
-# --- Sidebar Info & Leaderboard ---
-with st.sidebar:
-    # ✅ Add leaderboard below game title
-    display_leaderboard()
-    st.markdown(f"""<div style="padding:0 10px;"><p>{translations['sidebar_about_app_desc_1']}</p>
-    <h4>{translations['sidebar_modes_title']}</h4><ul><li>{translations['sidebar_mode_recognition']}</li><li>{translations['sidebar_mode_game']}</li></ul>
-    </div>""", unsafe_allow_html=True)
