@@ -145,6 +145,15 @@ def apply_custom_style():
             table-layout: auto;
             word-wrap: break-word;
         }
+        .canvas-container { 
+            border: none; 
+            padding: 0px; 
+            margin-bottom: 15px; 
+            background-color: transparent !important; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
 
     </style>
     """, unsafe_allow_html=True)
