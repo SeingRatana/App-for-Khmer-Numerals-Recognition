@@ -8,6 +8,7 @@ import time
 import random
 import os
 from streamlit.runtime.scriptrunner import get_script_run_ctx
+import matplotlib.pyplot as plt
 
 # Set page config and theme
 st.set_page_config(
@@ -190,21 +191,32 @@ def display_prediction_results(full_prediction_output): # For recognition mode
         <div>{translations["confidence_label"]} {conf:.2f}%</div></div>""", unsafe_allow_html=True)
     st.subheader(translations["prediction_header"])
     
-    with st.container():
-        st.markdown("""
-            <style>
-                .wide-chart-container {
-                    max-width: 800px;
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-            </style>
-            <div class="wide-chart-container">
-        """, unsafe_allow_html=True)
-        
-        st.bar_chart({to_khmer_number(i): float(p) for i, p in enumerate(full_prediction_output[0])})
-        
-        st.markdown("</div>", unsafe_allow_html=True)
+    def display_prediction_results(full_prediction_output):
+        if full_prediction_output is None:
+            st.warning("No prediction output.")
+            return
+    
+        pred_cls, conf = np.argmax(full_prediction_output), np.max(full_prediction_output) * 100
+        khmer_pred = to_khmer_number(pred_cls)
+    
+        bg_style = f"background-color: var(--{'success' if conf > 80 else 'warning' if conf > 50 else 'error'}-color)33; border-left: 6px solid var(--{'success' if conf > 80 else 'warning' if conf > 50 else 'error'}-color);"
+        st.markdown(f"""<div class="prediction-result" style="{bg_style}">
+            <div>{translations["predicted_digit_label"]} <span style="font-size:42px;">{khmer_pred}</span> ({pred_cls})</div>
+            <div>{translations["confidence_label"]} {conf:.2f}%</div></div>""", unsafe_allow_html=True)
+    
+        # Khmer digits + prediction values
+        values = full_prediction_output[0]
+        khmer_labels = [to_khmer_number(i) for i in range(10)]
+    
+        # Plot wide chart
+        fig, ax = plt.subplots(figsize=(10, 4))
+        ax.bar(khmer_labels, values, color="#6e8efb")
+        ax.set_ylim(0, 1.05)
+        ax.set_ylabel("Probability")
+        ax.set_xlabel("លេខខ្មែរ")
+        ax.set_title(translations["prediction_header"])
+        st.pyplot(fig)
+
 
 def generate_equation():
     a = random.randint(0, 9)
