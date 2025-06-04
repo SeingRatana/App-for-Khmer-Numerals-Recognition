@@ -289,32 +289,21 @@ if app_mode == translations["rec_mode_title"]:
             st.markdown('<div class="canvas-container" style="margin:0 auto 15px auto;">', unsafe_allow_html=True) 
             cv_rec_data = st_canvas(fill_color="rgba(0,0,0,0)",stroke_width=stroke_width_recognition,stroke_color="#FFF",background_color="#000",height=280,width=280,drawing_mode="freedraw",key=st.session_state.recognition_canvas_key)
             st.markdown('</div>', unsafe_allow_html=True)
-            def clear_rec_cv_action():
-                parts=st.session_state.recognition_canvas_key.split('_');base,num="_".join(parts[:-1]),int(parts[-1])
-                st.session_state.recognition_canvas_key=f"{base}_{num+1}"; st.rerun()
-            st.button(translations["rec_draw_clear_button"], key="clear_rec_btn_key", on_click=clear_rec_cv_action, use_container_width=True)
+            img_arr_cv = cv_rec_data.image_data[:,:,0].astype(np.uint8) if cv_rec_data.image_data is not None else None
+            if img_arr_cv is not None and np.any(img_arr_cv > 0):
+                if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
+                    if model_loaded:
+                        with st.spinner(translations["analyzing_spinner"]):
+                            processed = preprocess_image_for_model(img_arr_cv,"CANVAS_REC")
+                            _,_,raw_pred = predict_digit_from_processed_img(processed)
+                        display_prediction_results(raw_pred)
+                    else:
+                        st.error(translations["sidebar_model_not_loaded"])
         with col2_act:
-            act_placeholder = st.container()
-            is_drawing = False
-            if cv_rec_data.image_data is not None and np.any(cv_rec_data.image_data[:,:,0]>0):
-                is_drawing = True
-        
-            if is_drawing:
-                with act_placeholder:
-                    img_arr_cv = cv_rec_data.image_data[:,:,0].astype(np.uint8)
-                    if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
-                        if model_loaded:
-                            with st.spinner(translations["analyzing_spinner"]):
-                                processed = preprocess_image_for_model(img_arr_cv,"CANVAS_REC")
-                                _,_,raw_pred = predict_digit_from_processed_img(processed)
-                            display_prediction_results(raw_pred)
-                        else:
-                            st.error(translations["sidebar_model_not_loaded"])
-            else:
-                with act_placeholder: st.info(translations["rec_draw_info_empty"])
+            st.info(translations["rec_draw_info_empty"])
             st.markdown(f"""<div class="info-box" style="margin-top:20px;"><p>{translations['rec_draw_tips_title']}</p><ul>
                 <li>{translations['rec_draw_tip_1']}</li><li>{translations['rec_draw_tip_2']}</li></ul></div>""", unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+
 
 # ========================= ARITHMETIC GAME MODE =========================
 elif app_mode == translations["game_mode_title"].split("!")[0]:
