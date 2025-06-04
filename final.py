@@ -520,11 +520,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
 # --- Sidebar Info & Leaderboard ---
 with st.sidebar:
-    st.markdown("---")
     st.markdown(f"""<div style="padding:0 10px;"><p>{translations['sidebar_about_app_desc_1']}</p>
     <h4>{translations['sidebar_modes_title']}</h4><ul><li>{translations['sidebar_mode_recognition']}</li><li>{translations['sidebar_mode_game']}</li></ul>
     </div>""", unsafe_allow_html=True)
-
-    # Display leaderboard in sidebar
-    st.markdown("🏅 **Leaderboard**")
-    display_leaderboard()
