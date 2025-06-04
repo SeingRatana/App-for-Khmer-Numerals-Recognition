@@ -319,10 +319,6 @@ if app_mode == translations["rec_mode_title"]:
 # ========================= ARITHMETIC GAME MODE =========================
 elif app_mode == translations["game_mode_title"].split("!")[0]:
     st.markdown(f"<div class='card'><h2>{translations['game_mode_title']}</h2></div>", unsafe_allow_html=True)
-    # 🔁 Manual timer refresh every second during active game
-    if st.session_state.game_active and not st.session_state.game_over:
-        if "last_refresh_time" not in st.session_state:
-            st.session_state.last_refresh_time = time.time()
 
     if not st.session_state.game_active and not st.session_state.game_over:
         if st.button(translations["game_start_button"], use_container_width=True, type="primary", key="start_game_btn"):
@@ -346,6 +342,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         col_score_disp, col_timer_disp, col_stop_game = st.columns([2,2,1])
         with col_score_disp:
             st.markdown(f"<span class='game-stat'>{translations['game_score_label']} {st.session_state.game_score}</span>", unsafe_allow_html=True)
+        with col_timer_disp:
+            st.markdown(f"<span class='game-stat' style='text-align:right;'>{translations['game_time_label']} ១២០ វិនាទី ⏳</span>", unsafe_allow_html=True)
         with col_stop_game:
             if st.button(translations["game_stop_button"], key="stop_game_btn", help=translations["game_stop_button_help"], use_container_width=True, type="secondary"):
                 end_game()
