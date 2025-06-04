@@ -153,6 +153,30 @@ def apply_custom_style():
             table-layout: auto;
             word-wrap: break-word;
         }
+        /* Match the canvas wrapper with background color */
+        div[data-testid="stCanvas"] {
+            padding: 0 !important;
+            margin: 0 !important;
+            background-color: var(--background-color) !important;
+            overflow: hidden !important;
+            border: none !important;
+        }
+        
+        /* Match toolbar area background with page background */
+        div[data-testid="stCanvasToolbar"] {
+            background-color: var(--background-color) !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding-top: 4px !important;
+        }
+        
+        /* Remove extra container space */
+        div[class^="element-container"] > div:has(canvas) {
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
     </style>
     """, unsafe_allow_html=True)
 
