@@ -529,7 +529,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
                             if is_digit_correct and user_solves_equation:
                                 st.toast(translations["game_toast_correct"].format(confidence=conf * 100), icon="🎉")
-                                st.balloons()
                                 time.sleep(0.5)
                                 start_new_game_question(increment_score=True)
                             else:
