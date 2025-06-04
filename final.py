@@ -138,6 +138,19 @@ def apply_custom_style():
         .css-1s3fmew, .css-1x8cf1d { background-color: rgba(110,142,251,0.1); border: 1px dashed var(--border-color); padding: 10px; border-radius: 10px; }
         .sidebar .sidebar-content, [data-testid="stSidebar"] { background-color: var(--card-background); border-right: 1px solid var(--border-color); }
         div[data-testid="stBlock"] div.stBlock div[class$="ChartContainer"] { background-color: transparent !important; }
+        input[type="text"] {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #6e8efb !important;
+            border-radius: 8px !important;
+            font-weight: bold !important;
+            padding: 10px !important;
+        }
+
+        label[for^="name_input"] {
+            font-weight: bold;
+            color: #222;
+        }
     </style>
     """, unsafe_allow_html=True)
 
