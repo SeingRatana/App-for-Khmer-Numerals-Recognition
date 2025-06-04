@@ -223,7 +223,7 @@ def generate_equation():
 
 # --- Leaderboard Helpers ---
 def save_score_to_session(name, score):
-    st.session_state.leaderboard.append({"Name": name, "Score": score})
+    st.session_state.leaderboard.append({"ឈ្មោះ": name, "ពិន្ទុ": score})
     st.session_state.leaderboard = sorted(
         st.session_state.leaderboard,
         key=lambda x: x["Score"],
@@ -523,7 +523,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 # --- Sidebar Info & Leaderboard ---
 with st.sidebar:
     # ✅ Add leaderboard below game title
-    st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
     display_leaderboard()
     st.markdown(f"""<div style="padding:0 10px;"><p>{translations['sidebar_about_app_desc_1']}</p>
     <h4>{translations['sidebar_modes_title']}</h4><ul><li>{translations['sidebar_mode_recognition']}</li><li>{translations['sidebar_mode_game']}</li></ul>
