@@ -445,8 +445,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 # --- Sidebar Info & Footer ---
 with st.sidebar:
     st.markdown("---")
-    st.markdown(f"""<div style="text-align:center;padding:10px;"><img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Khmer_numerals.svg" width="230" alt="{translations['sidebar_khmer_numerals_img_alt']}"><p style="font-size:0.8rem;margin-top:5px;" class="secondary-text">{translations['sidebar_khmer_numerals_caption']}</p></div>""", unsafe_allow_html=True)
-    st.markdown("---")
     st.markdown(f"""<div style="padding:0 10px;"><p>{translations['sidebar_about_app_desc_1']}</p>
     <h4>{translations['sidebar_modes_title']}</h4><ul><li>{translations['sidebar_mode_recognition']}</li><li>{translations['sidebar_mode_game']}</li></ul>
     </div>""", unsafe_allow_html=True)
