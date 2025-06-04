@@ -4,4 +4,3 @@ tensorflow
 opencv-python
 Pillow
 streamlit-drawable-canvas
-matplotlib
