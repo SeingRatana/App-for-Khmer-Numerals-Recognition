@@ -5,5 +5,3 @@ opencv-python
 Pillow
 streamlit-drawable-canvas
 pandas
-gspread
-oauth2client
