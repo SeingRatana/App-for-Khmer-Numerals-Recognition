@@ -379,9 +379,6 @@ if app_mode == translations["rec_mode_title"]:
 # ========================= ARITHMETIC GAME MODE =========================
 elif app_mode == translations["game_mode_title"].split("!")[0]:
     st.markdown(f"<div class='card'><h2>{translations['game_mode_title']}</h2></div>", unsafe_allow_html=True)
-    # ✅ Add leaderboard below game title
-    st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
-    display_leaderboard()
 
     if not st.session_state.game_active and not st.session_state.game_over:
         if st.button(translations["game_start_button"], use_container_width=True, type="primary", key="start_game_btn"):
@@ -525,6 +522,9 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
 # --- Sidebar Info & Leaderboard ---
 with st.sidebar:
+    # ✅ Add leaderboard below game title
+    st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
+    display_leaderboard()
     st.markdown(f"""<div style="padding:0 10px;"><p>{translations['sidebar_about_app_desc_1']}</p>
     <h4>{translations['sidebar_modes_title']}</h4><ul><li>{translations['sidebar_mode_recognition']}</li><li>{translations['sidebar_mode_game']}</li></ul>
     </div>""", unsafe_allow_html=True)
