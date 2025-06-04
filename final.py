@@ -543,7 +543,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                     fbk_details = translations["game_toast_incorrect_generic"]
                                 st.toast(translations[fbk_msg_key] + fbk_details, icon="🤔")
                                 time.sleep(0.2)
-                                start_new_game_question(decrement_score=True)
+                                start_new_game_question(decrement_score=False)
 
                         else:
                             st.toast(translations["game_toast_cannot_recognize"], icon="⚠️")
