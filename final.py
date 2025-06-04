@@ -528,8 +528,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
                             if is_digit_correct and user_solves_equation:
                                 st.toast(translations["game_toast_correct"].format(confidence=conf * 100), icon="🎉")
-                                st.session_state.advance_to_next_question = {"increment": True}
-                                st.rerun()  # ✅ THIS IS THE MODERN VERSION
+                                time.sleep(0.1)
+                                start_new_game_question(increment_score=True)
                             else:
                                 fbk_msg_key = "game_toast_incorrect_base"
                                 if not is_digit_correct:
@@ -541,8 +541,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                 else:
                                     fbk_details = translations["game_toast_incorrect_generic"]
                                 st.toast(translations[fbk_msg_key] + fbk_details, icon="🤔")
-                                st.session_state.advance_to_next_question = {"decrement": True}
-                                st.rerun()  # ✅ THIS IS THE MODERN VERSION
+                                time.sleep(0.1)
+                                start_new_game_question(decrement_score=False)
 
                         else:
                             st.toast(translations["game_toast_cannot_recognize"], icon="⚠️")
@@ -552,14 +552,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                     st.toast(translations["game_toast_no_digit_drawn"], icon="✏️")
             else:
                 st.toast(translations["game_toast_canvas_data_unavailable"], icon="✏️")
-
-
-    # ✅ Add it here
-    if "advance_to_next_question" in st.session_state:
-        info = st.session_state.pop("advance_to_next_question")
-        increment = info.get("increment", False)
-        decrement = info.get("decrement", False)
-        start_new_game_question(increment_score=increment, decrement_score=decrement)
 
 with st.sidebar:
     display_leaderboard()
