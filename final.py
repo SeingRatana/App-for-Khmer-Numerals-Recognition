@@ -85,7 +85,7 @@ def apply_custom_style():
     st.markdown("""
     <style>
         :root {
-            --background-color: #f5f7f9; --card-background: #ffffff; --text-color: #333333;
+            --background-color: #ffffff; --card-background: #ffffff; --text-color: #333333;
             --secondary-text: #666666; --accent-color: #6e8efb;
             --accent-gradient: linear-gradient(135deg, #6e8efb, #a777e3);
             --border-color: #e6e6e6; --success-color: #4CAF50; --warning-color: #FFC107;
