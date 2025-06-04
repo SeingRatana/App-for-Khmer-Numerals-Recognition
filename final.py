@@ -10,6 +10,8 @@ import os
 from streamlit.runtime.scriptrunner import get_script_run_ctx
 import matplotlib.pyplot as plt
 import pandas as pd  # Added for leaderboard
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 # Set page config and theme
 st.set_page_config(
@@ -163,6 +165,27 @@ apply_custom_style()
 st.sidebar.markdown("---")
 stroke_width_recognition = 15
 stroke_width_game = 15
+
+SHEET_NAME = "តារាងចំណាត់ថ្នាក់"
+WORKSHEET_NAME = "តារាងចំណាត់ថ្នាក់"  # or whatever tab name you chose
+
+def get_gsheet_client():
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("your_service_account.json", scope)
+    client = gspread.authorize(creds)
+    return client
+
+def load_leaderboard_from_sheet():
+    client = get_gsheet_client()
+    sheet = client.open(SHEET_NAME).worksheet(WORKSHEET_NAME)
+    data = sheet.get_all_records()
+    df = pd.DataFrame(data)
+    return df
+
+def save_score_to_sheet(name, score):
+    client = get_gsheet_client()
+    sheet = client.open(SHEET_NAME).worksheet(WORKSHEET_NAME)
+    sheet.append_row([name, score])
 
 # --- Helper Functions ---
 def to_khmer_number(number_str):
