@@ -153,34 +153,40 @@ def apply_custom_style():
             table-layout: auto;
             word-wrap: break-word;
         }
-        /* Match canvas wrapper to page background */
+        /* Make canvas wrapper background match the app */
         div[data-testid="stCanvas"] {
             padding: 0 !important;
             margin: 0 !important;
             background-color: var(--background-color) !important;
             border: none !important;
             box-shadow: none !important;
+            overflow: hidden !important;
         }
         
-        /* Match the toolbar area to background */
+        /* Make toolbar match app background */
         div[data-testid="stCanvasToolbar"] {
             background-color: var(--background-color) !important;
             border: none !important;
             box-shadow: none !important;
+            padding-top: 4px !important;
         }
         
-        /* Remove padding/margin/border from outer block that wraps canvas + toolbar */
-        div[class^="element-container"] > div:has(div[data-testid="stCanvas"]) {
-            padding: 0 !important;
+        /* Kill margins/padding around the canvas container */
+        div[class*="element-container"] > div:has(div[data-testid="stCanvas"]) {
             margin: 0 !important;
+            padding: 0 !important;
             background: transparent !important;
             box-shadow: none !important;
             border: none !important;
         }
         
-        /* Remove possible Streamlit spacing below canvas container */
-        .css-ocqkz7 {
-            margin-bottom: 0px !important;
+        /* Prevent Streamlit from adding background to any auto container around canvas */
+        div[data-testid="stBlock"]:has(div[data-testid="stCanvas"]) {
+            background: transparent !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
         }
     </style>
     """, unsafe_allow_html=True)
