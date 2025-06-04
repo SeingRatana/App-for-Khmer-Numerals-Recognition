@@ -43,7 +43,7 @@ translations = {
     "rec_input_method": "វិធីសាស្ត្របញ្ចូល:",
     "rec_upload_image_radio": "📁 បង្ហោះរូបភាព",
     "rec_draw_digit_radio": "✏️ គូរលេខ",
-    "rec_upload_title": "📁 បង្ហោះរូបภาพ",
+    "rec_upload_title": "📁 បង្ហោះរូបភាព",
     "rec_upload_uploader_label": "រូបភាពលេខខ្មែរ",
     "rec_upload_original_caption": "រូបភាពដើម",
     "rec_upload_processed_caption": "រូបភាពកែយប្រា(បញ្ច្រាសPixels)",
