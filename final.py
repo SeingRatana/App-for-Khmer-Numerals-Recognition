@@ -364,8 +364,6 @@ if app_mode == translations["rec_mode_title"]:
             st.markdown('''
             <div style="display: flex; justify-content: center; align-items: center; background-color: #000; padding: 0; margin: 0;">
             ''', unsafe_allow_html=True)
-        
-            canvas_size = get_responsive_canvas_size()
             
             cv_game_data = st_canvas(
                 fill_color="rgba(0,0,0,0)",
