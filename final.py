@@ -393,7 +393,9 @@ if app_mode == translations["rec_mode_title"]:
                 height=280,
                 width=280,
                 drawing_mode="freedraw",
-                key=st.session_state.recognition_canvas_key
+                key=st.session_state.recognition_canvas_key,
+                update_streamlit=True,
+                display_toolbar=False  # <- disable default download/delete buttons
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -478,7 +480,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                 height=280,
                 width=280,
                 drawing_mode="freedraw",
-                key=st.session_state.game_canvas_key
+                key=st.session_state.game_canvas_key,
                 update_streamlit=True,
                 display_toolbar=False  # <- disable default download/delete buttons
             )
