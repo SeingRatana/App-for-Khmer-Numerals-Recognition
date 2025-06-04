@@ -369,33 +369,24 @@ if app_mode == translations["rec_mode_title"]:
         with col1_cv:
             st.markdown(f"<p style='text-align:center;font-weight:bold;'>{translations['rec_draw_canvas_label']}</p>", unsafe_allow_html=True)
         
-            # ✅ NEW FIXED WRAPPER – this removes the white borders
-            st.markdown("""
-            <div style="
-                display: inline-block;
-                background-color: #000;
-                padding: 0;
-                margin: 0;
-                line-height: 0;
-                border: none;
-            ">
-            """, unsafe_allow_html=True)
+            # 🧨 This block adds extra spacing visually
+            st.markdown('''
+            <div style="display: flex; justify-content: center; align-items: center; background-color: #000; padding: 0; margin: 0;">
+            ''', unsafe_allow_html=True)
         
             cv_game_data = st_canvas(
                 fill_color="rgba(0,0,0,0)",
                 stroke_width=stroke_width_game,
                 stroke_color="#FFF",
                 background_color="#000",
-                height=200,
-                width=200,
+                height=250,
+                width=250,
                 drawing_mode="freedraw",
                 key=st.session_state.game_canvas_key
             )
         
-            st.markdown("</div>", unsafe_allow_html=True)
-
-
-
+            st.markdown('</div>', unsafe_allow_html=True)
+        
             img_arr_cv = cv_game_data.image_data[:, :, 0].astype(np.uint8) if cv_game_data.image_data is not None else None
             has_drawing = img_arr_cv is not None and np.any(img_arr_cv > 0)
 
