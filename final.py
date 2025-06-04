@@ -35,7 +35,7 @@ translations = {
     "sidebar_about_app_desc_1": "<b>កម្មវិធីសម្គាល់លេខខ្មែរ</b> 🇰🇭 ប្រើ CNN សម្រាប់លេខខ្មែរ (០-៩)។",
     "sidebar_modes_title": "របៀប:",
     "sidebar_mode_recognition": "<b>សម្គាល់៖</b> បញ្ចូលរូបភាព ឬគូរ។",
-    "sidebar_mode_game": "<b>ហ្គេម៖</b> ដោះស្រាយលំហាត់ដោយគូរ (កំណត់ពេល ៦០វិនាទី/សំណួរ)។ ពិន្ទុ +/- ១។",
+    "sidebar_mode_game": "<b>ហ្គេម៖</b> ដោះស្រាយលំហាត់ដោយគូរ (កំណត់ពេល ៦០វិនាទី)។",
 
     # Recognition Mode
     "rec_mode_title": "🧐 ការសម្គាល់លេខខ្មែរ",
@@ -45,19 +45,17 @@ translations = {
     "rec_upload_title": "📁 បង្ហោះរូបភាព",
     "rec_upload_uploader_label": "រូបភាពលេខខ្មែរ",
     "rec_upload_original_caption": "រូបភាពដើម",
-    "rec_upload_processed_caption": "រូបភាពកែច្នៃ (បញ្ច្រាស)",
+    "rec_upload_processed_caption": "រូបភាពកែច្នៃ (បញ្ច្រាសPixels)",
     "rec_upload_button": "🔍 សម្គាល់រូបភាពដែលបានបង្ហោះ",
     "rec_upload_placeholder": "🖼️ បង្ហោះរូបភាព។",
     "rec_draw_title": "✏️ គូរលេខខ្មែរ",
     "rec_draw_canvas_label": "ផ្ទាំងក្រណាត់ (គូរពណ៌សលើផ្ទៃខ្មៅ):",
     "rec_draw_clear_button": "🧹 សម្អាតផ្ទាំងក្រណាត់",
     "rec_draw_preview_title": "មើលជាមុន & សម្គាល់:",
-    "rec_draw_preview_caption": "មើលជាមុនពីផ្ទាំងក្រណាត់ (R-Channel)",
     "rec_draw_recognize_button": "🔍 សម្គាល់លេខដែលបានគូរ",
     "rec_draw_info_empty": "☝️ សូមគូរលើផ្ទាំងក្រណាត់ បន្ទាប់មកប៊ូតុង 'សម្គាល់' នឹងបង្ហាញ។",
     "rec_draw_tips_title": "<b>គន្លឹះគូរ៖</b>",
     "rec_draw_tip_1": "គូរលេខមួយខ្ទង់ឲ្យច្បាស់។",
-    "rec_draw_tip_2": "កែសម្រួលកម្រាស់នៅរបារចំហៀង។",
 
     # Game Mode
     "game_mode_title": "🧮 ការប្រកួតដោះស្រាយលំហាត់លេខខ្មែរ! 🔢",
@@ -443,7 +441,6 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                     st.toast(translations["game_toast_no_digit_drawn"], icon="✏️")
             else: 
                 st.toast(translations["game_toast_canvas_data_unavailable"], icon="✏️")
-            # No st.rerun() here explicitly, start_new_game_question will handle it.
 
 # --- Sidebar Info & Footer ---
 with st.sidebar:
