@@ -528,7 +528,8 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                             khmer_correct_b = to_khmer_number(correct_b)
 
                             if is_digit_correct and user_solves_equation:
-                                st.balloons()
+                                st.toast(translations["game_toast_correct"].format(confidence=conf * 100), icon="🎉")
+                                time.sleep(0.2)
                                 start_new_game_question(increment_score=True)
                             else:
                                 fbk_msg_key = "game_toast_incorrect_base"
