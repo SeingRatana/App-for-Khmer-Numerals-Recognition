@@ -146,9 +146,8 @@ apply_custom_style()
 
 # --- Sidebar Controls ---
 st.sidebar.markdown("---")
-st.sidebar.subheader(translations["sidebar_drawing_controls"])
-stroke_width_recognition = st.sidebar.slider(translations["sidebar_stroke_recognition"], 5, 50, 20, 1)
-stroke_width_game = st.sidebar.slider(translations["sidebar_stroke_game"], 5, 50, 25, 1)
+stroke_width_recognition = 15
+stroke_width_game = 15
 
 # --- Helper Functions ---
 def to_khmer_number(number_str):
@@ -225,7 +224,7 @@ if "equation" not in st.session_state: st.session_state.equation = generate_equa
 def initialize_new_game_session():
     st.session_state.equation = generate_equation()
     st.session_state.game_question_start_time = time.time()
-    st.session_state.game_start_time = time.time()  # ✅ Set game timer start here
+    st.session_state.game_start_time = time.time()
     st.session_state.game_score = 0
     st.session_state.game_over = False
     st.session_state.game_active = True
@@ -332,7 +331,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         khmer_a, khmer_result = to_khmer_number(eq['a']), to_khmer_number(eq['result'])
 
         time_now = time.time()
-        total_game_time = 120  # Total allowed game time
+        total_game_time = 60  # Total allowed game time
         time_elapsed_total = time_now - st.session_state.game_start_time
         time_remaining_total = total_game_time - time_elapsed_total
 
@@ -343,7 +342,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         with col_score_disp:
             st.markdown(f"<span class='game-stat'>{translations['game_score_label']} {st.session_state.game_score}</span>", unsafe_allow_html=True)
         with col_timer_disp:
-            st.markdown(f"<span class='game-stat' style='text-align:right;'>{translations['game_time_label']} ១២០ វិនាទី ⏳</span>", unsafe_allow_html=True)
+            st.markdown(f"<span class='game-stat' style='text-align:right;'>{translations['game_time_label']} ៦០ វិនាទី ⏳</span>", unsafe_allow_html=True)
         with col_stop_game:
             if st.button(translations["game_stop_button"], key="stop_game_btn", help=translations["game_stop_button_help"], use_container_width=True, type="secondary"):
                 end_game()
