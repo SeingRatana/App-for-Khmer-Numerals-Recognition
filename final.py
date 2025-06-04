@@ -306,6 +306,7 @@ def start_new_game_question(increment_score=False, decrement_score=False):
     st.session_state.equation = generate_equation()
     st.session_state.game_question_start_time = time.time()
     st.session_state.game_canvas_key = "canvas_game_" + str(time.time())
+    st.rerun()
 
 def end_game():
     st.session_state.game_over = True
