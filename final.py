@@ -151,6 +151,16 @@ def apply_custom_style():
             font-weight: bold;
             color: #222;
         }
+        [data-testid="stSidebar"] .stDataFrame {
+            min-width: 300px !important;
+            max-width: 100% !important;
+        }
+        
+        [data-testid="stSidebar"] .stDataFrame table {
+            font-size: 0.85rem;
+            table-layout: auto;
+            word-wrap: break-word;
+        }
     </style>
     """, unsafe_allow_html=True)
 
