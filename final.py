@@ -426,7 +426,9 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
         col_score_disp, col_timer_disp, col_stop_game = st.columns([2, 2, 1])
         with col_score_disp:
-            st.markdown(f"<span class='game-stat'>{translations['game_score_label']} {st.session_state.game_score}</span>", unsafe_allow_html=True)
+            khmer_score = to_khmer_number(st.session_state.game_score)
+            st.markdown(f"<span class='game-stat'>{translations['game_score_label']} {khmer_score}</span>", unsafe_allow_html=True)
+
         with col_timer_disp:
             st.markdown(f"<span class='game-stat' style='text-align:right;'>{translations['game_time_label']} ៦០ វិនាទី ⏳</span>", unsafe_allow_html=True)
         with col_stop_game:
