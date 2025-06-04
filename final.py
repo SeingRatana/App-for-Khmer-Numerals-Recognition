@@ -126,22 +126,31 @@ def apply_custom_style():
         .stButton > button.secondary:hover, .stButton > button.stop-game-btn:hover { opacity: 0.8; }
         .info-box { background-color: rgba(33,150,243,0.1); border-left: 6px solid var(--info-color); padding: 10px; margin-top: 20px; border-radius: 0 5px 5px 0; }
         .placeholder { background-color: rgba(0,0,0,0.05); border: 2px dashed var(--border-color); border-radius: 10px; padding: 40px; text-align: center; margin: 20px 0; }
-        .canvas-container { 
-            border: none;
+        .canvas-container {
+            border: none !important;
             padding: 0 !important;
             margin: 0 !important;
             background-color: transparent !important;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: none !important;
         }
         
-        .streamlit-drawable-canvas {
+        /* Target the actual Streamlit canvas wrapper */
+        div[data-testid="stCanvas"] {
             background-color: transparent !important;
-            border: none !important;
             padding: 0 !important;
             margin: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        
+        /* Target Streamlit block holding the canvas */
+        div[class^="element-container"] > div:has(canvas) {
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
         }
 
         .css-1s3fmew, .css-1x8cf1d { background-color: rgba(110,142,251,0.1); border: 1px dashed var(--border-color); padding: 10px; border-radius: 10px; }
