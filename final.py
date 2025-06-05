@@ -376,7 +376,7 @@ if app_mode == translations["rec_mode_title"]:
             col1_up, col2_up = st.columns([1, 1])
             with col1_up:
                 pil_img = Image.open(uploaded_file).convert("L")
-                st.image(pil_img, caption=translations["rec_upload_original_caption"])
+                st.image(pil_img, caption=translations["rec_upload_original_caption"], use_container_width=True)
             img_np_orig = np.array(pil_img)
             img_np_inv_model = 255 - img_np_orig
             with col2_up:
