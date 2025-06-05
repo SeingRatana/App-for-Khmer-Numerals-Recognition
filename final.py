@@ -374,24 +374,17 @@ if app_mode == translations["rec_mode_title"]:
             key="img_uploader_key"
         )
         
-        if uploaded_file is not None:
-            try:
-                image_bytes = uploaded_file.read()
-                image_stream = BytesIO(image_bytes)
-                pil_img = Image.open(image_stream).convert("L")
         
-                col1_up, col2_up = st.columns([1, 1])
-                with col1_up:
-                    st.image(pil_img, caption=translations["rec_upload_original_caption"], use_container_width=True)
-        
-                img_np_orig = np.array(pil_img)
-                img_np_inv_model = 255 - img_np_orig
-        
-                with col2_up:
-                    st.image(img_np_inv_model, caption=translations["rec_upload_processed_caption"], use_container_width=True)
-        
-            except Exception as e:
-                st.error(f"❌ ការបើករូបភាពបរាជ័យ៖ {e}")
+        if uploaded_file:
+            col1_up, col2_up = st.columns([1,1])
+            with col1_up:
+                pil_img = Image.open(uploaded_file).convert("L")
+                st.image(pil_img, caption=translations["rec_upload_original_caption"], use_column_width=True)
+            img_np_orig = np.array(pil_img)
+            img_np_inv_model = 255 - img_np_orig 
+            with col2_up:
+                st.image(img_np_inv_model, caption=translations["rec_upload_processed_caption"], use_column_width=True)
+                
 
             if st.button(translations["rec_upload_button"],
                          type="primary", key="pred_upload_btn_key", use_container_width=True):
