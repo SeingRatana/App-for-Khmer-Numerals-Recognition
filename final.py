@@ -183,35 +183,28 @@ def to_khmer_number(number_str):
 
 def custom_toast(message, toast_type="info"):
     color_map = {
-        "success": "#4CAF50",  # green
-        "error": "#F44336",    # red
-        "warning": "#FFC107",  # amber
-        "info": "#2196F3",     # blue
-    }
-    icon_map = {
-        "success": "✅",
-        "error": "❌",
-        "warning": "⚠️",
-        "info": "ℹ️",
+        "success": {"bg": "#d4edda", "border": "#28a745", "text": "#155724", "icon": "✅"},
+        "error":   {"bg": "#f8d7da", "border": "#dc3545", "text": "#721c24", "icon": "❌"},
+        "warning": {"bg": "#fff3cd", "border": "#ffc107", "text": "#856404", "icon": "⚠️"},
+        "info":    {"bg": "#d1ecf1", "border": "#17a2b8", "text": "#0c5460", "icon": "ℹ️"},
     }
 
-    color = color_map.get(toast_type, "#2196F3")
-    icon = icon_map.get(toast_type, "ℹ️")
+    style = color_map.get(toast_type, color_map["info"])
 
     st.markdown(f"""
     <div style='
-        background-color: {color}20;
-        border-left: 6px solid {color};
-        padding: 12px 16px;
-        border-radius: 6px;
-        margin: 10px 0;
+        background-color: {style["bg"]};
+        border-left: 6px solid {style["border"]};
+        color: {style["text"]};
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
         font-weight: bold;
-        color: #333;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     '>
-        {icon} {message}
+        <span style="font-size: 1.2em;">{style["icon"]}</span> {message}
     </div>
     """, unsafe_allow_html=True)
-
 
 @st.cache_resource
 def load_model_cached():
@@ -575,7 +568,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
 
                             if is_digit_correct and user_solves_equation:
                                 custom_toast(translations["game_toast_correct"], toast_type="success")
-                                time.sleep(0.1)
+                                time.sleep(0.3)
                                 start_new_game_question(increment_score=True)
                             else:
                                 fbk_msg_key = "game_toast_incorrect_base"
@@ -588,7 +581,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                 else:
                                     fbk_details = translations["game_toast_incorrect_generic"]
                                 custom_toast(translations[fbk_msg_key] + fbk_details, toast_type="error")
-                                time.sleep(0.1)
+                                time.sleep(0.3)
                                 start_new_game_question(decrement_score=False)
 
                         else:
