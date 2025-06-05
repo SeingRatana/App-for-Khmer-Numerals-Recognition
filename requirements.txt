@@ -5,4 +5,3 @@ opencv-python
 Pillow
 streamlit-drawable-canvas
 pandas
-io
