@@ -5,13 +5,9 @@ import cv2
 from PIL import Image
 from streamlit_drawable_canvas import st_canvas
 import time
+import pandas as pd
 import random
-import os
-from streamlit.runtime.scriptrunner import get_script_run_ctx
-import matplotlib.pyplot as plt
-import pandas as pd  # Added for leaderboard
 
-# Khmer Translations
 translations = {
     # General UI
     "app_title": "កម្មវិធីសម្គាល់លេខខ្មែរ ✨",
@@ -159,6 +155,20 @@ def apply_custom_style():
     """, unsafe_allow_html=True)
 
 apply_custom_style()
+   
+# Performance Optimization Functions
+@st.cache_data
+def preprocess_image_cached(image_data, source_name):
+    """Cached image preprocessing"""
+    if image_data is None or image_data.size == 0:
+        return None
+    
+    img_uint8 = image_data.astype(np.uint8)
+    img_resized = cv2.resize(img_uint8, (28, 28), interpolation=cv2.INTER_AREA)
+    img_normalized = img_resized.astype('float32') / 255.0
+    img_expanded = np.expand_dims(img_normalized, axis=(0, -1))
+    
+    return img_expanded
 
 # --- Sidebar Controls ---
 st.sidebar.markdown("---")
@@ -170,6 +180,38 @@ def to_khmer_number(number_str):
     number_str = str(number_str)
     khmer_digits = "០១២៣៤៥៦៧៨៩"
     return ''.join(khmer_digits[int(d)] if d.isdigit() else d for d in number_str)
+
+def custom_toast(message, toast_type="info"):
+    color_map = {
+        "success": "#4CAF50",  # green
+        "error": "#F44336",    # red
+        "warning": "#FFC107",  # amber
+        "info": "#2196F3",     # blue
+    }
+    icon_map = {
+        "success": "✅",
+        "error": "❌",
+        "warning": "⚠️",
+        "info": "ℹ️",
+    }
+
+    color = color_map.get(toast_type, "#2196F3")
+    icon = icon_map.get(toast_type, "ℹ️")
+
+    st.markdown(f"""
+    <div style='
+        background-color: {color}20;
+        border-left: 6px solid {color};
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin: 10px 0;
+        font-weight: bold;
+        color: #333;
+    '>
+        {icon} {message}
+    </div>
+    """, unsafe_allow_html=True)
+
 
 @st.cache_resource
 def load_model_cached():
@@ -191,14 +233,13 @@ else:
 def preprocess_image_for_model(img_array_2d_grayscale_uint8, debug_source_name="image"):
     if img_array_2d_grayscale_uint8 is None or img_array_2d_grayscale_uint8.size == 0:
         return None
-    img_uint8 = img_array_2d_grayscale_uint8.astype(np.uint8)
-    img_resized = cv2.resize(img_uint8, (28, 28), interpolation=cv2.INTER_AREA)
-    img_normalized = img_resized.astype('float32') / 255.0
-    img_expanded = np.expand_dims(img_normalized, axis=(0, -1))
-    return img_expanded
+    # Store for feedback purposes
+    st.session_state.last_processed_image = img_array_2d_grayscale_uint8.copy()
+    
+    return preprocess_image_cached(img_array_2d_grayscale_uint8, debug_source_name)
 
 def predict_digit_from_processed_img(processed_img_expanded):
-    if not model_loaded or processed_img_expanded is None:
+    if not model_loaded or processed_img_expanded is None   :
         return None, 0, None
     try:
         raw_prediction = model.predict(processed_img_expanded)
@@ -245,17 +286,13 @@ def save_score_to_session(name, score):
         st.session_state.leaderboard,
         key=lambda x: x["Score"],
         reverse=True
-    )[:10]  # keep top 10
+    )[:10]
 
 def display_leaderboard():
     if st.session_state.leaderboard:
         df = pd.DataFrame(st.session_state.leaderboard)
         df = df.rename(columns={"Name": "ឈ្មោះ", "Score": "ពិន្ទុ"})
-
-        # Convert scores to Khmer
         df["ពិន្ទុ"] = df["ពិន្ទុ"].apply(to_khmer_number)
-
-        # Reindex with Khmer numerals
         khmer_indices = [to_khmer_number(i) for i in range(1, len(df) + 1)]
         df.index = khmer_indices
         df.index.name = "ចំណាត់ថ្នាក់"
@@ -263,7 +300,7 @@ def display_leaderboard():
         st.markdown("### 🏆 បញ្ជីពិន្ទុល្អបំផុត")
         st.dataframe(df, use_container_width=True)
     else:
-        st.info("📭 មិនទាន់មានពិន្ទុទេ។")  # No scores yet
+        st.info("📭 មិនទាន់មានពិន្ទុទេ។")
 
 # --- App Session State Initialization ---
 if 'recognition_canvas_key' not in st.session_state:
@@ -287,7 +324,7 @@ if "equation" not in st.session_state:
     st.session_state.equation = generate_equation()
 # Session-based leaderboard
 if 'leaderboard' not in st.session_state:
-    st.session_state.leaderboard = []  # list of {"Name": ..., "Score": ...}
+    st.session_state.leaderboard = []
 
 def initialize_new_game_session():
     st.session_state.equation = generate_equation()
@@ -320,7 +357,7 @@ st.markdown(f"<div class='app-header'><h1>{translations['app_title']}</h1><p>{tr
 app_mode = st.sidebar.radio(
     translations["sidebar_choose_mode"],
     [translations["rec_mode_title"], translations["game_mode_title"].split("!")[0]]
-)  # Use shorter names for radio
+)
 
 # ========================= DIGIT RECOGNITION MODE =========================
 if app_mode == translations["rec_mode_title"]:
@@ -346,11 +383,11 @@ if app_mode == translations["rec_mode_title"]:
             col1_up, col2_up = st.columns([1, 1])
             with col1_up:
                 pil_img = Image.open(uploaded_file).convert("L")
-                st.image(pil_img, caption=translations["rec_upload_original_caption"], use_column_width=True)
+                st.image(pil_img, caption=translations["rec_upload_original_caption"], use_container_width=True)
             img_np_orig = np.array(pil_img)
             img_np_inv_model = 255 - img_np_orig
             with col2_up:
-                st.image(img_np_inv_model, caption=translations["rec_upload_processed_caption"], use_column_width=True)
+                st.image(img_np_inv_model, caption=translations["rec_upload_processed_caption"], use_container_width=True)
             if st.button(translations["rec_upload_button"],
                          type="primary", key="pred_upload_btn_key", use_container_width=True):
                 if model_loaded:
@@ -369,7 +406,6 @@ if app_mode == translations["rec_mode_title"]:
         with col1_cv:
             st.markdown(f"<p style='text-align:center;font-weight:bold;'>{translations['rec_draw_canvas_label']}</p>", unsafe_allow_html=True)
         
-            # 🧨 This block adds extra spacing visually
             st.markdown('''
             <div style="display: flex; justify-content: center; align-items: center; background-color: #000; padding: 0; margin: 0;">
             ''', unsafe_allow_html=True)
@@ -388,13 +424,17 @@ if app_mode == translations["rec_mode_title"]:
             st.markdown('</div>', unsafe_allow_html=True)
         
             img_arr_cv = cv_game_data.image_data[:, :, 0].astype(np.uint8) if cv_game_data.image_data is not None else None
-            has_drawing = img_arr_cv is not None and np.any(img_arr_cv > 0)
+            has_drawing = (
+                cv_game_data.image_data is not None and 
+                np.any(cv_game_data.image_data[:, :, 0])
+            )
 
             if st.button(translations["rec_draw_recognize_button"], type="primary", key="rec_draw_btn_key", use_container_width=True):
                 if not has_drawing:
                     st.toast(translations["game_toast_no_digit_drawn"], icon="✏️")
                 elif model_loaded:
                     with st.spinner(translations["analyzing_spinner"]):
+                        img_arr_cv = cv_game_data.image_data[:, :, 0].astype(np.uint8)
                         processed = preprocess_image_for_model(img_arr_cv, "CANVAS_REC")
                         pred_cls, conf, raw_pred = predict_digit_from_processed_img(processed)
                         st.session_state.last_recognition_result = raw_pred
@@ -411,12 +451,20 @@ if app_mode == translations["rec_mode_title"]:
 elif app_mode == translations["game_mode_title"].split("!")[0]:
     st.markdown(f"<div class='card'><h2>{translations['game_mode_title']}</h2></div>", unsafe_allow_html=True)
 
+    # Reduced refresh rate for better performance
+    if st.session_state.game_active and not st.session_state.game_over:
+        if "last_refresh_time" not in st.session_state:
+            st.session_state.last_refresh_time = time.time()
+        if time.time() - st.session_state.last_refresh_time >= 3:
+            st.session_state.last_refresh_time = time.time()
+            st.rerun()
+
     if not st.session_state.game_active and not st.session_state.game_over:
         if st.button(translations["game_start_button"], use_container_width=True, type="primary", key="start_game_btn"):
             initialize_new_game_session()
 
     elif st.session_state.game_over:
-        khmer_score = to_khmer_number(st.session_state.game_score)  # ✅ convert score to Khmer
+        khmer_score = to_khmer_number(st.session_state.game_score)
         st.error(translations["game_over_message"].format(score=khmer_score))
 
         name = st.text_input("📝 បញ្ចូលឈ្មោះរបស់អ្នក:", max_chars=25, key="name_input")
@@ -434,7 +482,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
         khmer_a, khmer_result = to_khmer_number(eq['a']), to_khmer_number(eq['result'])
 
         time_now = time.time()
-        total_game_time = 60  # Total allowed game time
+        total_game_time = 60
         time_elapsed_total = time_now - st.session_state.game_start_time
         time_remaining_total = total_game_time - time_elapsed_total
 
@@ -483,7 +531,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
             start_new_game_question()
 
         if check_ans_btn_clicked:
-            if cv_game_data.image_data is not None:
+            if cv_game_data.image_data is not None and np.any(cv_game_data.image_data[:, :, 0]):
                 img_arr_game_cv = cv_game_data.image_data[:, :, 0].astype(np.uint8)
                 if np.any(img_arr_game_cv > 0):
                     if model_loaded:
@@ -508,18 +556,16 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                 if user_in == 0:
                                     user_solves_equation = False
                                 elif actual_a == 0 and expected_rhs == 0:
-                                    # 0 / x = 0 is valid for any x != 0
                                     user_solves_equation = True
                                 elif expected_rhs * user_in == actual_a and actual_a % user_in == 0:
                                     user_solves_equation = True
                                 else:
                                     user_solves_equation = False
 
-                            # Adjust what we consider a "correct digit"
                             if actual_a == 0 and op == "/" and expected_rhs == 0:
-                                is_digit_correct = user_in in range(1, 10)  # Accept any digit 1–9
+                                is_digit_correct = user_in in range(1, 10)
                             elif actual_a == 0 and op == "*" and expected_rhs == 0:
-                                is_digit_correct = user_in in range(0, 10)  # Accept any digit 0–9
+                                is_digit_correct = user_in in range(0, 10)
                             else:
                                 is_digit_correct = user_in == correct_b
 
@@ -528,7 +574,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                             khmer_correct_b = to_khmer_number(correct_b)
 
                             if is_digit_correct and user_solves_equation:
-                                st.toast(translations["game_toast_correct"].format(confidence=conf * 100), icon="🎉")
+                                custom_toast(translations["game_toast_correct"], toast_type="success")
                                 time.sleep(0.1)
                                 start_new_game_question(increment_score=True)
                             else:
@@ -541,7 +587,7 @@ elif app_mode == translations["game_mode_title"].split("!")[0]:
                                     fbk_details = translations["game_toast_incorrect_wrong_equation"]
                                 else:
                                     fbk_details = translations["game_toast_incorrect_generic"]
-                                st.toast(translations[fbk_msg_key] + fbk_details, icon="🤔")
+                                custom_toast(translations[fbk_msg_key] + fbk_details, toast_type="error")
                                 time.sleep(0.1)
                                 start_new_game_question(decrement_score=False)
 
